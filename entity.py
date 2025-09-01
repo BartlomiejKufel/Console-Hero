@@ -1,3 +1,5 @@
+import visuals
+
 
 class Entity:
     def __init__(self, name: str, hp: int, power: int):
@@ -9,9 +11,9 @@ class Entity:
 
     def show_info(self):
         if self.is_alive():
-            print(f"{self.name}: ♥️ {self.hp}/{self.max_hp} HP | 🗡️ {self.power} A ", end=" ")
+            print(f"{self.name}: {visuals.emojis.get('heart')} {self.hp}/{self.max_hp} HP | {visuals.emojis.get('sword')} {self.power} A ", end=" ")
         else:
-            print(f"{self.name} nie żyje 💀!")
+            print(f"{self.name} nie żyje {visuals.emojis.get('skull')}!")
 
     def is_alive(self) -> bool:
         return self.hp > 0

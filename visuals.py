@@ -1,4 +1,8 @@
 import time
+import json
+
+with open("assets/emojis.json", "r", encoding="utf-8") as f:
+    emojis = json.load(f)
 
 game_title = "CONSOLE HERO"
 
@@ -34,8 +38,8 @@ def end_screen():
 def death_screen(experience, level, level_cap):
     print("#" * 50)
     print()
-    print("You Died".center(50))
-    print(f"Twój wynik: ✨ {experience}/{level_cap} EXP | 🧝 {level} LVL".center(50))
+    print(f"You Died {emojis.get('skull')}".center(50))
+    print(f"Twój wynik: {emojis.get('stars')} {experience}/{level_cap} EXP | {emojis.get('hero')} {level} LVL".center(50))
     print()
     print("#" * 50)
 

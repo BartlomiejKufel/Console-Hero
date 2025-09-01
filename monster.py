@@ -1,3 +1,4 @@
+import visuals
 from entity import Entity
 import json
 import random
@@ -13,7 +14,7 @@ class Monster(Entity):
     def show_info(self):
         super().show_info()
         if self.is_alive():
-            print(f"| 👹 {self.level} LVL")
+            print(f"| {visuals.emojis.get('monster')} {self.level} LVL")
 
     @classmethod
     def load_monster_from_json(cls, file_path, player_level)-> "Monster":
@@ -22,7 +23,8 @@ class Monster(Entity):
             while True:
                 random_index = random.randint(0, len(data)-1)
                 monster_level = data[random_index]["level"]
-                if player_level-1 <= monster_level <= player_level+1: # wybiera potwory z poziomem maksymalnie o jeden wyżej lub minimalnie o jeden niżej w stosunku do poziomu gracza
+                # wybiera potwory z poziomem maksymalnie o jeden wyżej lub minimalnie o jeden niżej w stosunku do poziomu gracza
+                if player_level-1 <= monster_level <= player_level+1:
                     monster_name = data[random_index]["name"]
                     monster_hp = data[random_index]["hp"]
                     monster_power = data[random_index]["power"]

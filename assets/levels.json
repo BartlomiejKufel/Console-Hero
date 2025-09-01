@@ -1,0 +1,17 @@
+[
+  {"level": 1,"level_cap": 100, "max_hp": 100, "power": 20},
+  {"level": 2,"level_cap": 120, "max_hp": 120, "power": 22},
+  {"level": 3,"level_cap": 140, "max_hp": 140, "power": 24},
+  {"level": 4,"level_cap": 160, "max_hp": 160, "power": 26},
+  {"level": 5,"level_cap": 180, "max_hp": 185, "power": 28},
+  {"level": 6,"level_cap": 200, "max_hp": 210, "power": 30},
+  {"level": 7,"level_cap": 220, "max_hp": 240, "power": 33},
+  {"level": 8,"level_cap": 240, "max_hp": 270, "power": 36},
+  {"level": 9,"level_cap": 260, "max_hp": 305, "power": 40},
+  {"level": 10,"level_cap": 280, "max_hp": 340, "power": 44},
+  {"level": 11,"level_cap": 300, "max_hp": 380, "power": 49},
+  {"level": 12,"level_cap": 320, "max_hp": 420, "power": 54},
+  {"level": 13,"level_cap": 340, "max_hp": 465, "power": 60},
+  {"level": 14,"level_cap": 360, "max_hp": 510, "power": 76},
+  {"level": 15,"level_cap": 380, "max_hp": 560, "power": 83}
+]

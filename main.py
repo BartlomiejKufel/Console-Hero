@@ -1,12 +1,13 @@
 from monster import Monster
-from player import Player
+from player import Player, heal_potion_index
 import visuals
 import random
 
-monsters_file_path = "monsters.json"
+monsters_file_path = "assets/monsters.json"
 
 
-
+#Start gry, menu startowe
+visuals.clear_console()
 while True:
     visuals.start_screen()
     print("\nWybierz jedną z opcji:")
@@ -22,19 +23,21 @@ while True:
 
     visuals.clear_console()
 
-    if player_choice == 1:
+    if player_choice == 1: # rozpoczęcie gry
         break
-    elif player_choice == 2:
+    elif player_choice == 2: # autor gry
         visuals.credit_screen()
         visuals.clear_console()
-    elif player_choice == 3:
+    elif player_choice == 3: # wyjście z gry
         visuals.clear_console()
         visuals.end_screen()
+        input()
         exit(0)
     else:
         print("Nie ma takiej opcji")
 
 
+#Ustawienie nazwy dla bohatera, którym gra gracz
 while True:
     print("Wpisz nazwę swojego bohatera:")
     player_name = input("> ")
@@ -55,24 +58,32 @@ while True:
     else:
         print("Spróbuj jeszcze raz")
 
-start_player_hp = 100
-start_player_power = 20
-player = Player(player_name, start_player_hp, start_player_power)
+#Stworzenie postaci gracza z nazwą i defaultowymi wartościami zdrowia i siły
+player = Player(player_name, 0, 0)
 
+#Stowrzenie pierwszego przeciwnika
 enemy_test = Monster.load_monster_from_json(monsters_file_path, player.level)
 
 
 while True:
+    #Sprawdzenie, czy gracz dalej żyje
     if not player.is_alive():
         visuals.death_screen(player.experience, player.level, player.level_cap)
+        input()
         break
 
-
+    #Informacje o graczu i przeciwniku
     player.show_info()
     enemy_test.show_info()
+
+    #Wybór akcji gracza
     print("\n\nWybierz jedną z opcji:")
-    print("1. Atakuj")
-    print("2. Wylecz się")
+    print(f"1. Atakuj {visuals.emojis.get('sword')}")
+    if player.bag[heal_potion_index].is_in_bag():
+        print(f"2. Wylecz się {player.bag[heal_potion_index].amount}/{player.bag[heal_potion_index].limit} {visuals.emojis.get('health_potion')}")
+    else:
+        print(f"2. Brak Mikstur Leczenia w plecaku! {visuals.emojis.get('health_potion')}")
+
     try:
         player_choice = int(input("> "))
     except ValueError:
@@ -83,17 +94,23 @@ while True:
 
     if player_choice == 1:
         player.deal_damage(enemy_test)
-    elif player_choice == 2:
+    elif player_choice == 2 and player.bag[heal_potion_index].is_in_bag():
         player.heal_damage(10)
+        player.bag[heal_potion_index].amount -= 1
+    elif player_choice == 2 and not player.bag[heal_potion_index].is_in_bag():
+        print("Brak Mikstur Leczenia w plecaku!")
+        continue
     else:
         print("Nie ma takiej opcji")
         continue
 
+    #sprawdzenie, czy nie trzeba wysłać nowego przeciwnika
     if not enemy_test.is_alive():
         enemy_test = Monster.load_monster_from_json(monsters_file_path, player.level)
         print(f"Pojawia się nowy przeciwnik {enemy_test.name}")
         continue
 
+    #Wybór akcji przeciwnika
     enemy_choice = random.choice([1, 2])
 
     if enemy_choice == 1:

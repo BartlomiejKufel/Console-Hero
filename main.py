@@ -3,8 +3,8 @@ from player import Player, heal_potion_index
 import visuals
 import random
 
-monsters_file_path = "assets/monsters.json"
-
+monsters_file_path = "assets/monsters.json" # ścieżka do pliku z potworami
+floor_number = 1 # numer poziomu
 
 #Start gry, menu startowe
 visuals.clear_console()
@@ -62,19 +62,20 @@ while True:
 player = Player(player_name, 0, 0)
 
 #Stowrzenie pierwszego przeciwnika
-enemy_test = Monster.load_monster_from_json(monsters_file_path, player.level)
+enemy = Monster.load_monster_from_json(monsters_file_path, player.level)
 
 
 while True:
     #Sprawdzenie, czy gracz dalej żyje
     if not player.is_alive():
-        visuals.death_screen(player.experience, player.level, player.level_cap)
+        visuals.death_screen(player.experience, player.level, player.level_cap, floor_number)
         input()
         break
 
     #Informacje o graczu i przeciwniku
+    visuals.floor_info(floor_number)
     player.show_info()
-    enemy_test.show_info()
+    enemy.show_info()
 
     #Wybór akcji gracza
     print("\n\nWybierz jedną z opcji:")
@@ -93,7 +94,7 @@ while True:
     visuals.clear_console()
 
     if player_choice == 1:
-        player.deal_damage(enemy_test)
+        player.deal_damage(enemy)
     elif player_choice == 2 and player.bag[heal_potion_index].is_in_bag():
         player.heal_damage(10)
         player.bag[heal_potion_index].amount -= 1
@@ -105,17 +106,20 @@ while True:
         continue
 
     #sprawdzenie, czy nie trzeba wysłać nowego przeciwnika
-    if not enemy_test.is_alive():
-        enemy_test = Monster.load_monster_from_json(monsters_file_path, player.level)
-        print(f"Pojawia się nowy przeciwnik {enemy_test.name}")
+    if not enemy.is_alive():
+        floor_number+=1
+        enemy = Monster.load_monster_from_json(monsters_file_path, player.level)
+        visuals.change_floor(floor_number)
+        print(f"Pojawia się nowy przeciwnik {enemy.name}")
+
         continue
 
     #Wybór akcji przeciwnika
     enemy_choice = random.choice([1, 2])
 
     if enemy_choice == 1:
-        enemy_test.deal_damage(player)
+        enemy.deal_damage(player)
     elif enemy_choice == 2:
-        enemy_test.heal_damage(10)
+        enemy.heal_damage(10)
 
 

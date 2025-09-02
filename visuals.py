@@ -35,12 +35,17 @@ def end_screen():
     print()
     print("#" * 50)
 
-def death_screen(experience, level, level_cap):
+def death_screen(experience, level, level_cap, floor_number):
     print("#" * 50)
     print()
     print(f"You Died {emojis.get('skull')}".center(50))
-    print(f"Twój wynik: {emojis.get('stars')} {experience}/{level_cap} EXP | {emojis.get('hero')} {level} LVL".center(50))
+    print(f"Twój wynik: {emojis.get('stars')} {experience}/{level_cap} EXP | {emojis.get('hero')} {level} LVL | {emojis.get('door')} {floor_number} piętro".center(50))
     print()
     print("#" * 50)
 
+def floor_info(floor_number):
+    print(f"Aktualne piętro: {floor_number} {emojis.get('door')}")
+
+def change_floor(floor_number):
+    print(f"Przejście na kolejne piętro {floor_number-1} -> {floor_number} {emojis.get('door')}")
 
